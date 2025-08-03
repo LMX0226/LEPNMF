@@ -66,23 +66,6 @@ def attenweight(q_h, k_h, edge_index, n, num_head):
         attenweightmatrix[:,head,:] = th.mul(scores, adj_matrix)  # 删除多余的维度，并根据邻接矩阵筛选非邻接节点的权重
 
     return attenweightmatrix
-def my_softmax(tensor):
-    # batch_size, rows, cols = tensor.shape
-
-    # 找出每个矩阵中每一行中不为零的索引
-    non_zero_indices = torch.nonzero(tensor, as_tuple=False)
-
-    # 将非零值应用 softmax 操作
-    non_zero_values = tensor[non_zero_indices[:, 0], non_zero_indices[:, 1], non_zero_indices[:, 2]]
-    softmax_values = F.softmax(non_zero_values, dim=0)
-
-    # 创建一个与原始张量形状相同的张量，用于存储 softmax 结果
-    softmax_tensor = torch.zeros_like(tensor)
-
-    # 将 softmax 结果放回到对应的位置
-    softmax_tensor[non_zero_indices[:, 0], non_zero_indices[:, 1], non_zero_indices[:, 2]] = softmax_values
-    return softmax_tensor
-import numpy as np
 
 
 def MY_layer_normalize(tensor):
